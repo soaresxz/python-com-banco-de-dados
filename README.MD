@@ -2,7 +2,7 @@
 
 Este projeto é uma implementação em Python de um sistema de cadastro para gerenciar clientes e seus respectivos pedidos, como parte de uma atividade acadêmica.
 
-## [cite_start]📋 Funcionalidades [cite: 2]
+## 📋 Funcionalidades 
 
 O sistema oferece as seguintes operações:
 
@@ -16,7 +16,7 @@ O sistema oferece as seguintes operações:
     * Adicionar um novo pedido para um cliente existente.
     * Listar todos os pedidos, exibindo os detalhes do cliente associado.
 
-## [cite_start]🛠️ Estrutura do Banco de Dados [cite: 2]
+## 🛠️ Estrutura do Banco de Dados 
 
 O sistema utiliza um banco de dados SQLite (`empresa.db`) com duas tabelas:
 
@@ -47,4 +47,4 @@ O sistema utiliza um banco de dados SQLite (`empresa.db`) com duas tabelas:
     python sistema_cadastro.py
     ```
 4.  O banco de dados `empresa.db` será criado automaticamente na primeira execução.
-5.  [cite_start]Siga as instruções do menu interativo para usar o sistema. [cite: 3]
+5.  Siga as instruções do menu interativo para usar o sistema. 
