@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import sqlite3
 from datetime import date
 
-# Nome do arquivo do banco de dados
 DB_NAME = "empresa.db"
 
 def setup_database():
@@ -13,10 +11,8 @@ def setup_database():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     
-    # Habilita o suporte a chaves estrangeiras no SQLite
     cursor.execute("PRAGMA foreign_keys = ON;")
 
-    # [cite_start]Cria a tabela de clientes [cite: 2]
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS clientes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,7 +22,6 @@ def setup_database():
     );
     """)
 
-    # [cite_start]Cria a tabela de pedidos [cite: 2]
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS pedidos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +36,6 @@ def setup_database():
     conn.commit()
     conn.close()
 
-# [cite_start]--- Funções CRUD para Clientes --- [cite: 2]
 
 def adicionar_cliente(nome, email, telefone):
     """Adiciona um novo cliente ao banco de dados."""
@@ -116,14 +110,12 @@ def deletar_cliente(cliente_id):
         conn.close()
 
 
-# [cite_start]--- Funções CRUD para Pedidos --- [cite: 2]
 
 def adicionar_pedido(cliente_id, produto, valor):
     """Adiciona um novo pedido para um cliente."""
     try:
         conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
-        # Verifica se o cliente existe
         cursor.execute("SELECT id FROM clientes WHERE id = ?", (cliente_id,))
         if not cursor.fetchone():
             print(f"\n❌ Erro: Cliente com ID {cliente_id} não encontrado.")
@@ -143,7 +135,6 @@ def listar_pedidos_com_clientes():
     """Lista todos os pedidos, relacionando-os com os nomes dos clientes."""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    # [cite_start]Consulta que relaciona pedidos aos seus clientes [cite: 2]
     cursor.execute("""
     SELECT 
         p.id, p.produto, p.valor, p.data,
@@ -164,7 +155,6 @@ def listar_pedidos_com_clientes():
         print("---------------------------------")
 
 
-# [cite_start]--- Interface do Menu Interativo --- [cite: 3]
 
 def menu():
     """Exibe o menu principal e gerencia a entrada do usuário."""
@@ -222,11 +212,11 @@ def menu():
             listar_pedidos_com_clientes()
             
         elif escolha == '0':
-            print("\n👋 Saindo do sistema. Até logo!")
+            print("\n👋 Saindo do sistema...")
             break
         else:
             print("\n❌ Opção inválida. Tente novamente.")
 
 if __name__ == "__main__":
-    setup_database() # Garante que o banco de dados e as tabelas existam
+    setup_database()
     menu()
