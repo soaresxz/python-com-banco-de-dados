@@ -44,11 +44,11 @@ def adicionar_cliente(nome, email, telefone):
         cursor = conn.cursor()
         cursor.execute("INSERT INTO clientes (nome, email, telefone) VALUES (?, ?, ?)", (nome, email, telefone))
         conn.commit()
-        print(f"\n✅ Cliente '{nome}' adicionado com sucesso!")
+        print(f"\n Cliente '{nome}' adicionado com sucesso!")
     except sqlite3.IntegrityError:
-        print(f"\n❌ Erro: O email '{email}' já está cadastrado.")
+        print(f"\n Erro: O email '{email}' já está cadastrado.")
     except Exception as e:
-        print(f"\n❌ Ocorreu um erro: {e}")
+        print(f"\n Ocorreu um erro: {e}")
     finally:
         conn.close()
 
@@ -61,7 +61,7 @@ def listar_clientes():
     conn.close()
 
     if not clientes:
-        print("\nℹ️ Nenhum cliente cadastrado.")
+        print("\nNenhum cliente cadastrado.")
     else:
         print("\n--- Lista de Clientes ---")
         for cliente in clientes:
@@ -80,14 +80,14 @@ def atualizar_cliente(cliente_id, nome, email, telefone):
         """, (nome, email, telefone, cliente_id))
         
         if cursor.rowcount == 0:
-            print(f"\n❌ Erro: Nenhum cliente encontrado com o ID {cliente_id}.")
+            print(f"\nErro: Nenhum cliente encontrado com o ID {cliente_id}.")
         else:
             conn.commit()
-            print(f"\n✅ Cliente ID {cliente_id} atualizado com sucesso!")
+            print(f"\nCliente ID {cliente_id} atualizado com sucesso!")
     except sqlite3.IntegrityError:
-        print(f"\n❌ Erro: O email '{email}' já pertence a outro cliente.")
+        print(f"\nErro: O email '{email}' já pertence a outro cliente.")
     except Exception as e:
-        print(f"\n❌ Ocorreu um erro: {e}")
+        print(f"\nOcorreu um erro: {e}")
     finally:
         conn.close()
 
@@ -100,12 +100,12 @@ def deletar_cliente(cliente_id):
         cursor.execute("DELETE FROM clientes WHERE id = ?", (cliente_id,))
         
         if cursor.rowcount == 0:
-            print(f"\n❌ Erro: Nenhum cliente encontrado com o ID {cliente_id}.")
+            print(f"\nErro: Nenhum cliente encontrado com o ID {cliente_id}.")
         else:
             conn.commit()
-            print(f"\n✅ Cliente ID {cliente_id} e todos os seus pedidos foram deletados com sucesso.")
+            print(f"\nCliente ID {cliente_id} e todos os seus pedidos foram deletados com sucesso.")
     except Exception as e:
-        print(f"\n❌ Ocorreu um erro: {e}")
+        print(f"\nOcorreu um erro: {e}")
     finally:
         conn.close()
 
@@ -118,16 +118,16 @@ def adicionar_pedido(cliente_id, produto, valor):
         cursor = conn.cursor()
         cursor.execute("SELECT id FROM clientes WHERE id = ?", (cliente_id,))
         if not cursor.fetchone():
-            print(f"\n❌ Erro: Cliente com ID {cliente_id} não encontrado.")
+            print(f"\nErro: Cliente com ID {cliente_id} não encontrado.")
             return
 
         data_hoje = date.today().isoformat()
         cursor.execute("INSERT INTO pedidos (cliente_id, produto, valor, data) VALUES (?, ?, ?, ?)",
                        (cliente_id, produto, valor, data_hoje))
         conn.commit()
-        print(f"\n✅ Pedido para o cliente ID {cliente_id} adicionado com sucesso!")
+        print(f"\nPedido para o cliente ID {cliente_id} adicionado com sucesso!")
     except Exception as e:
-        print(f"\n❌ Ocorreu um erro: {e}")
+        print(f"\nOcorreu um erro: {e}")
     finally:
         conn.close()
 
@@ -147,7 +147,7 @@ def listar_pedidos_com_clientes():
     conn.close()
 
     if not pedidos:
-        print("\nℹ️ Nenhum pedido cadastrado.")
+        print("\nNenhum pedido cadastrado.")
     else:
         print("\n--- Lista de Todos os Pedidos ---")
         for pedido in pedidos:
@@ -190,14 +190,14 @@ def menu():
                 telefone = input("Novo telefone: ")
                 atualizar_cliente(cliente_id, nome, email, telefone)
             except ValueError:
-                print("\n❌ ID inválido. Por favor, digite um número.")
+                print("\nID inválido. Por favor, digite um número.")
 
         elif escolha == '4':
             try:
                 cliente_id = int(input("ID do cliente a ser deletado: "))
                 deletar_cliente(cliente_id)
             except ValueError:
-                print("\n❌ ID inválido. Por favor, digite um número.")
+                print("\nID inválido. Por favor, digite um número.")
 
         elif escolha == '5':
             try:
@@ -206,16 +206,16 @@ def menu():
                 valor = float(input("Valor do pedido: "))
                 adicionar_pedido(cliente_id, produto, valor)
             except ValueError:
-                print("\n❌ ID ou valor inválido. Por favor, digite números.")
+                print("\nID ou valor inválido. Por favor, digite números.")
 
         elif escolha == '6':
             listar_pedidos_com_clientes()
             
         elif escolha == '0':
-            print("\n👋 Saindo do sistema...")
+            print("\nSaindo do sistema...")
             break
         else:
-            print("\n❌ Opção inválida. Tente novamente.")
+            print("\nOpção inválida. Tente novamente.")
 
 if __name__ == "__main__":
     setup_database()
